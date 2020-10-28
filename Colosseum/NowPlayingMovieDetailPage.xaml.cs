@@ -18,5 +18,10 @@ namespace Colosseum
             InitializeComponent();
             BindingContext = movie;
         }
+
+        private async void Button_Clicked(object sender, EventArgs e)
+        {
+            await DisplayAlert("Error", "Booking service is not working", "OK");
+        }
     }
 }

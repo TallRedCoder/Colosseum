@@ -8,32 +8,28 @@
                 <DataTemplate>
                     <ViewCell>
                         <Frame BorderColor="LightGray" Margin="5" Padding="0" HasShadow="False">
-                            <Grid Margin="15,5,10,5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+                            <Grid Margin="15,5,10,5" ColumnDefinitions="100, *">
                                 <Frame Grid.Column="0" CornerRadius="20" Padding="0">
-                                    <Image Aspect="AspectFill" Source="{Binding poster}"/>
+                                    <Image HeightRequest="200" Aspect="AspectFill" Source="{Binding poster}"/>
                                 </Frame>
                                 <StackLayout Grid.Column="1" Margin="10,0,0,0">
                                     <Label FontSize="20" TextColor="Black" Text="{Binding title}"/>
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label FontSize="16" TextColor="#757575" Text="Tagline"/>
-                                        <Label FontSize="16" TextColor="Black" Text="{Binding tagline}"/>
-                                    </StackLayout>
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label FontSize="16" TextColor="#757575" Text="Runtime"/>
-                                        <Label FontSize="16" TextColor="Black" Text="{Binding runtime}"/>
-                                    </StackLayout>
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label FontSize="16" TextColor="#757575" Text="Language"/>
-                                        <Label FontSize="16" TextColor="Black" Text="{Binding language}"/>
-                                    </StackLayout>
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label FontSize="18" TextColor="Black" FontAttributes="Bold" Text="{Binding vote_average}"/>
-                                        <Image HeightRequest="20" WidthRequest="20" Source="star_icon"/>
-                                    </StackLayout>
+                                    <Grid ColumnDefinitions="auto, *">
+                                        <Label Grid.Column="0" FontSize="16" TextColor="#757575" Text="Tagline" LineBreakMode="NoWrap"/>
+                                        <Label Grid.Column="1" FontSize="16" TextColor="Black" Text="{Binding tagline}"/>
+                                    </Grid>
+                                    <Grid ColumnDefinitions="auto, *">
+                                        <Label Grid.Column="0" FontSize="16" TextColor="#757575" Text="Runtime" LineBreakMode="NoWrap"/>
+                                        <Label Grid.Column="1" FontSize="16" TextColor="Black" Text="{Binding durationText}"/>
+                                    </Grid>
+                                    <Grid ColumnDefinitions="auto, *">
+                                        <Label Grid.Column="0" FontSize="16" TextColor="#757575" Text="Language" LineBreakMode="NoWrap"/>
+                                        <Label Grid.Column="1" FontSize="16" TextColor="Black" Text="{Binding languagesList}"/>
+                                    </Grid>
+                                    <Grid ColumnDefinitions="auto, 20, *">
+                                        <Label Grid.Column="0" FontSize="18" TextColor="Black" FontAttributes="Bold" Text="{Binding rating, StringFormat='{0:0.0}'}"/>
+                                        <Image Grid.Column="1" HeightRequest="20" WidthRequest="20" Source="star_icon"/>
+                                    </Grid>
                                 </StackLayout>
                             </Grid>
                         </Frame>
