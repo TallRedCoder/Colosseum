@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Colosseum.NowPlayingMovieDetailPage">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.4*"/>
+                <RowDefinition Height="0.2*"/>
+                <RowDefinition Height="0.2*"/>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" Grid.RowSpan="4" Aspect="Fill" Source="{Binding poster}"/>
+            <BoxView Grid.Row="0" Grid.RowSpan="4" BackgroundColor="Black" Opacity="0.6" />
+            <Label Grid.Row="1" Text="{Binding title}" TextColor="White" FontSize="24" Margin="15,0,0,0" />
+            <StackLayout Grid.Row="2" Margin="5,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.4*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Aspect="AspectFit" Source="ellipse"/>
+                    <Label Grid.Column="0" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" Text="PG-13"/>
+                    <Label Grid.Column="1" TextColor="Black" BackgroundColor="White" VerticalOptions="Center" Text="122 min" />
+                    <Label Grid.Column="2" TextColor="Black" BackgroundColor="White" VerticalOptions="Center" Text="English" />
+                </Grid>
+            </StackLayout>
+            <Image Grid.Row="3" Grid.RowSpan="2" HorizontalOptions="End" Margin="0,0,20,0" Source="play_icon"/>
+            <StackLayout Grid.Row="5" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Label Margin="5,0,5,0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontSize="16" TextColor="Black" FontAttributes="Bold" Text="Genre:"/>
+                            <Span FontSize="16" TextColor="Black" Text="{Binding genresText}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label Margin="5,0,5,0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontSize="16" TextColor="Black" FontAttributes="Bold" Text="Release date:"/>
+                            <Span FontSize="16" TextColor="Black" Text="{Binding release_date}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label Margin="5,0,5,0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontSize="16" TextColor="Black" FontAttributes="Bold" Text="Tagline:"/>
+                            <Span FontSize="16" TextColor="Black" Text="{Binding tagline}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <ScrollView>
+                    <Label Margin="5,0,5,0">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontSize="16" TextColor="Black" FontAttributes="Bold" Text="Description:"/>
+                                <Span FontSize="16" TextColor="Black" Text="{Binding overview}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </ScrollView>
+                <Button HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" TextColor="White" BackgroundColor="#FF5722" FontSize="24" Text="Book ticket" />
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
