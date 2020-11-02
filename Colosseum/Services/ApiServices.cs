@@ -15,9 +15,19 @@ namespace Colosseum.Services
         private string apiURL { get { return "https://api.themoviedb.org/3/"; } }
         private string apiImgURL { get { return "https://image.tmdb.org/t/p/w500/"; } }
         private string MakeImgUrl(string imagePath) { return string.IsNullOrEmpty(imagePath) ? "" : apiImgURL + imagePath; }
-        private string GetNowPlayingMovieRequestUrl(int movieID)
+        private string MakeYoutubeUrlEmbeded(string youtubeKey) { return String.Format("https://www.youtube.com/embed/{0}", youtubeKey); }
+        private enum MovieRequestDetail
+        {
+            Movie,
+            Trailer
+        }
+        private string GetRequestUrlMovie(int movieID)
         {
             return String.Format("{0}movie/{1}{2}", apiURL, movieID, apiKey);
+        }
+        private string GetRequestUrlMovieTrailer(int movieID)
+        {
+            return String.Format("{0}movie/{1}/videos{2}", apiURL, movieID, apiKey);
         }
         public async Task<List<Movie>> GetNowPlayingMovies()
         {
@@ -27,14 +37,31 @@ namespace Colosseum.Services
             var client = new HttpClient();
             while(10 > list.Count)
             {
-                HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, GetNowPlayingMovieRequestUrl(rnd.Next(1, 1000)));
-                var responseMessage = await client.SendAsync(requestMessage);
-                var movieResponse = await responseMessage.Content.ReadAsStringAsync();
-                ApiMovie movie = JsonConvert.DeserializeObject<ApiMovie>(movieResponse);
-                if(null != movie && !string.IsNullOrEmpty(movie.title))
-                    list.Add(ConvertToModelMovie(movie));
+                int movieID = rnd.Next(1, 1000);
+                string response = await GetMovieData(client, movieID, MovieRequestDetail.Movie);
+                ApiMovie apiMovie = JsonConvert.DeserializeObject<ApiMovie>(response);
+                if (null != apiMovie && !string.IsNullOrEmpty(apiMovie.title))
+                {
+                    Movie movie = ConvertToModelMovie(apiMovie);
+
+                    response = await GetMovieData(client, movieID, MovieRequestDetail.Trailer);
+                    ApiTrailer trailer = JsonConvert.DeserializeObject<ApiTrailer>(response);
+                    AddTrailerData(movie, trailer);
+
+                    list.Add(movie);
+                }
+
             }
             return list;
+        }
+
+        private async Task<string> GetMovieData(HttpClient client, int movieID, MovieRequestDetail detail)
+        {
+            string request = MovieRequestDetail.Trailer == detail ? GetRequestUrlMovieTrailer(movieID) : GetRequestUrlMovie(movieID);
+            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, request);
+            var responseMessage = await client.SendAsync(requestMessage);
+            var responseContent = await responseMessage.Content.ReadAsStringAsync();
+            return responseContent;
         }
 
         private Movie ConvertToModelMovie(ApiMovie apiMovie)
@@ -52,6 +79,21 @@ namespace Colosseum.Services
             movie.genres = ConvertToTextList(apiMovie.genres);
 
             return movie;
+        }
+
+        private void AddTrailerData(Movie movie, ApiTrailer trailer)
+        {
+            if (null == trailer || null == trailer.results)
+                return;
+
+            foreach(ApiTrailerItem item in trailer.results)
+            {
+                if(item.site.Equals("youtube", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    movie.trailer = MakeYoutubeUrlEmbeded(item.key);
+                    return;
+                }
+            }
         }
 
         private List<string> ConvertToTextList<T>(List<T> list)

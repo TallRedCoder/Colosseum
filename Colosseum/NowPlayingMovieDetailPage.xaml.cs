@@ -13,15 +13,23 @@ namespace Colosseum
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NowPlayingMovieDetailPage : ContentPage
     {
+        private Movie movie;
         public NowPlayingMovieDetailPage(Movie movie)
         {
             InitializeComponent();
+            this.movie = movie;
             BindingContext = movie;
         }
 
-        private async void Button_Clicked(object sender, EventArgs e)
+        private void BookTicket_Tapped(object sender, EventArgs e)
         {
-            await DisplayAlert("Error", "Booking service is not working", "OK");
+            Navigation.PushAsync(new BookTicketPage(movie));
+        }
+
+        private void PlayVideo_Tapped(object sender, EventArgs e)
+        {
+            if(!string.IsNullOrEmpty(movie.trailer))
+                Navigation.PushAsync(new VideoPage(movie.trailer));
         }
     }
 }

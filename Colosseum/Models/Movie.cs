@@ -19,6 +19,7 @@ namespace Colosseum.Models
 		public List<string> genres { get; set; }
 		public string languagesList { get { return listToString(languages); } }
 		public string genresList { get { return listToString(genres); } }
+		public string trailer { get; set; }
 
 		private string listToString(List<string> list) { return string.Join(", ", list); }
 	}

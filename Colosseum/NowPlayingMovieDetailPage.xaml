@@ -15,7 +15,11 @@
                     <Label Grid.Column="2" TextColor="Black" BackgroundColor="White" VerticalOptions="Center" Text="English" />
                 </Grid>
             </StackLayout>
-            <Image Grid.Row="3" Grid.RowSpan="2" HorizontalOptions="End" Margin="0,0,20,0" Source="play_icon"/>
+            <Image Grid.Row="3" Grid.RowSpan="2" HorizontalOptions="End" Margin="0,0,20,0" Source="play_icon">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer x:Name="PlayVideo" Tapped="PlayVideo_Tapped"/>
+                </Image.GestureRecognizers>
+            </Image>
             <StackLayout Grid.Row="5" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <Label Margin="5,0,5,0">
                     <Label.FormattedText>
@@ -51,7 +55,7 @@
                         </Label.FormattedText>
                     </Label>
                 </ScrollView>
-                <Button HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" TextColor="White" BackgroundColor="#FF5722" FontSize="24" Text="Book ticket" Clicked="Button_Clicked"/>
+                <Button HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" TextColor="White" BackgroundColor="#FF5722" FontSize="24" Text="Book ticket" Clicked="BookTicket_Tapped"/>
             </StackLayout>
         </Grid>
     </ContentPage.Content>
